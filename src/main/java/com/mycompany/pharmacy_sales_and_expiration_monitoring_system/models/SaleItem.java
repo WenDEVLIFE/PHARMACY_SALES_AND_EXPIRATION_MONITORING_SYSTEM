@@ -6,6 +6,7 @@ public class SaleItem {
     private int productId;
     private int quantity;
     private double unitPrice;
+    private String productName; // Added for display
 
     public SaleItem(int id, int saleId, int productId, int quantity, double unitPrice) {
         this.id = id;
@@ -60,5 +61,13 @@ public class SaleItem {
 
     public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 }

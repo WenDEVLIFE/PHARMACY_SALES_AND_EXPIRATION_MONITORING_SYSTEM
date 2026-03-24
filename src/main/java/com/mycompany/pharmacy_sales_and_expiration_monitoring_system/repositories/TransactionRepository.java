@@ -85,4 +85,70 @@ public class TransactionRepository {
         }
         return transactions;
     }
+
+    public List<SaleItem> getSaleItems(int saleId) throws SQLException {
+        List<SaleItem> items = new ArrayList<>();
+        String query = "SELECT si.*, p.name as product_name FROM sale_items si JOIN products p ON si.product_id = p.id WHERE si.sale_id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, saleId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    SaleItem item = new SaleItem(
+                            rs.getInt("product_id"),
+                            rs.getInt("quantity"),
+                            rs.getDouble("unit_price"));
+                    item.setProductName(rs.getString("product_name"));
+                    item.setSaleId(saleId);
+                    items.add(item);
+                }
+            }
+        }
+        return items;
+    }
+
+    public Transaction getTransactionById(int saleId) throws SQLException {
+        String query = "SELECT * FROM sales WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, saleId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Transaction(
+                            rs.getInt("id"),
+                            rs.getInt("cashier_id"),
+                            rs.getDouble("subtotal"),
+                            rs.getDouble("discount_amount"),
+                            rs.getDouble("tax_amount"),
+                            rs.getDouble("total_amount"),
+                            rs.getString("discount_type"),
+                            rs.getString("receipt_text"),
+                            rs.getTimestamp("sale_date"));
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<Object[]> getMonthlyTopSelling(String month) throws SQLException {
+        List<Object[]> results = new ArrayList<>();
+        String query = "SELECT p.name, SUM(si.quantity) as total_qty " +
+                "FROM sale_items si " +
+                "JOIN sales s ON si.sale_id = s.id " +
+                "JOIN products p ON si.product_id = p.id " +
+                "WHERE DATE_FORMAT(s.sale_date, '%Y-%m') = ? " +
+                "GROUP BY si.product_id " +
+                "ORDER BY total_qty DESC " +
+                "LIMIT 5";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, month);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    results.add(new Object[] { rs.getString("name"), rs.getInt("total_qty") });
+                }
+            }
+        }
+        return results;
+    }
 }

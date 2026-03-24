@@ -58,6 +58,18 @@ CREATE TABLE IF NOT EXISTS sale_items (
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL
 );
 
+-- 6. Sale Returns Table
+CREATE TABLE IF NOT EXISTS sale_returns (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sale_id INT,
+    product_id INT,
+    quantity INT NOT NULL,
+    reason TEXT,
+    return_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL
+);
+
 -- Initial Admin Account
 INSERT INTO users (username, password, role) 
 VALUES ('admin', 'admin123', 'ADMIN') 

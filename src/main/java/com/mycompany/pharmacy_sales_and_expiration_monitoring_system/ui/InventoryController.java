@@ -252,6 +252,10 @@ public class InventoryController {
 
     @FXML
     private void handleBack() throws IOException {
-        App.setRoot("admin_dashboard");
+        if (AuthenticationService.isAdmin()) {
+            App.setRoot("admin_dashboard");
+        } else {
+            App.setRoot("cashier_dashboard");
+        }
     }
 }

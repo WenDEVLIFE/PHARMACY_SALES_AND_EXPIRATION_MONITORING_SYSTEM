@@ -78,4 +78,14 @@ public class UserRepository {
             return stmt.executeUpdate() > 0;
         }
     }
+
+    public boolean updatePassword(int userId, String newPassword) throws SQLException {
+        String query = "UPDATE users SET password = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, newPassword);
+            stmt.setInt(2, userId);
+            return stmt.executeUpdate() > 0;
+        }
+    }
 }

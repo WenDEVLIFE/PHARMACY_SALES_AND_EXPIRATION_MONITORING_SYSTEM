@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.Font?>
 <?import java.net.URL?>
 
@@ -35,11 +36,19 @@
             </children>
         </HBox>
         
-        <StackPane VBox.vgrow="ALWAYS">
+        <VBox VBox.vgrow="ALWAYS" alignment="CENTER" spacing="20.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#handleSales" prefHeight="200.0" prefWidth="400.0" text="START NEW SALE&#10;(Point of Sale)" styleClass="button-secondary" style="-fx-font-size: 24; -fx-text-alignment: center;"/>
+                <GridPane alignment="CENTER" hgap="20.0" vgap="20.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#handleSales" prefHeight="150.0" prefWidth="250.0" text="Sell&#10;Product" styleClass="button-secondary" style="-fx-font-size: 20; -fx-text-alignment: center;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Button mnemonicParsing="false" onAction="#handleViewStock" prefHeight="150.0" prefWidth="250.0" text="View&#10;Stock" styleClass="button-primary" style="-fx-font-size: 20; -fx-text-alignment: center;" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                        <Button mnemonicParsing="false" onAction="#handleCheckExpired" prefHeight="150.0" prefWidth="250.0" text="Check&#10;Expired" styleClass="button-warning" style="-fx-font-size: 20; -fx-text-alignment: center;" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                        <Button mnemonicParsing="false" onAction="#handlePasswordChange" prefHeight="150.0" prefWidth="250.0" text="Change&#10;Password" styleClass="button-info" style="-fx-font-size: 20; -fx-text-alignment: center;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Button mnemonicParsing="false" onAction="#handleExit" prefHeight="150.0" prefWidth="250.0" text="Exit&#10;System" styleClass="button-danger" style="-fx-font-size: 20; -fx-text-alignment: center;" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    </children>
+                </GridPane>
             </children>
-        </StackPane>
+        </VBox>
     </children>
     <padding>
         <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />

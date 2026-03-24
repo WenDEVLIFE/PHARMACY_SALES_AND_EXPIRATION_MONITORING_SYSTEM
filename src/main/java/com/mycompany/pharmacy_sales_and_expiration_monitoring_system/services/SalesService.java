@@ -25,6 +25,10 @@ public class SalesService {
         currentCart.clear();
     }
 
+    public double getSubtotal() {
+        return currentCart.stream().mapToDouble(item -> item.getQuantity() * item.getUnitPrice()).sum();
+    }
+
     public boolean completeSale(int cashierId, double subtotal, double discountAmount, double taxAmount,
             double totalAmount, String discountType, String receiptText) throws SQLException {
         if (currentCart.isEmpty())
