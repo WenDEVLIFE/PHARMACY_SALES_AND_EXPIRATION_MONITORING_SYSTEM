@@ -33,11 +33,16 @@ CREATE TABLE IF NOT EXISTS products (
     FOREIGN KEY (supplier_id) REFERENCES suppliers(id) ON DELETE SET NULL
 );
 
--- 4. Sales Table
+-- 4. Sales Table (Enhanced)
 CREATE TABLE IF NOT EXISTS sales (
     id INT AUTO_INCREMENT PRIMARY KEY,
     cashier_id INT,
+    subtotal DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    discount_amount DECIMAL(10, 2) DEFAULT 0.00,
+    tax_amount DECIMAL(10, 2) DEFAULT 0.00,
     total_amount DECIMAL(10, 2) NOT NULL,
+    discount_type VARCHAR(20) DEFAULT 'NONE',
+    receipt_text LONGTEXT,
     sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (cashier_id) REFERENCES users(id) ON DELETE SET NULL
 );

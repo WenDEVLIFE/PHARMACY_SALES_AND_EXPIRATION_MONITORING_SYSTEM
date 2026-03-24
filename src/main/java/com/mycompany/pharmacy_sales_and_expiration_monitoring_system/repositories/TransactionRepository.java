@@ -15,10 +15,15 @@ public class TransactionRepository {
             conn = DatabaseConnection.getConnection();
             conn.setAutoCommit(false);
 
-            String saleQuery = "INSERT INTO sales (cashier_id, total_amount) VALUES (?, ?)";
+            String saleQuery = "INSERT INTO sales (cashier_id, subtotal, discount_amount, tax_amount, total_amount, discount_type, receipt_text) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement saleStmt = conn.prepareStatement(saleQuery, Statement.RETURN_GENERATED_KEYS);
             saleStmt.setInt(1, transaction.getCashierId());
-            saleStmt.setDouble(2, transaction.getTotalAmount());
+            saleStmt.setDouble(2, transaction.getSubtotal());
+            saleStmt.setDouble(3, transaction.getDiscountAmount());
+            saleStmt.setDouble(4, transaction.getTaxAmount());
+            saleStmt.setDouble(5, transaction.getTotalAmount());
+            saleStmt.setString(6, transaction.getDiscountType());
+            saleStmt.setString(7, transaction.getReceiptText());
             saleStmt.executeUpdate();
 
             ResultSet rs = saleStmt.getGeneratedKeys();
@@ -68,7 +73,12 @@ public class TransactionRepository {
                     transactions.add(new Transaction(
                             rs.getInt("id"),
                             rs.getInt("cashier_id"),
+                            rs.getDouble("subtotal"),
+                            rs.getDouble("discount_amount"),
+                            rs.getDouble("tax_amount"),
                             rs.getDouble("total_amount"),
+                            rs.getString("discount_type"),
+                            rs.getString("receipt_text"),
                             rs.getTimestamp("sale_date")));
                 }
             }

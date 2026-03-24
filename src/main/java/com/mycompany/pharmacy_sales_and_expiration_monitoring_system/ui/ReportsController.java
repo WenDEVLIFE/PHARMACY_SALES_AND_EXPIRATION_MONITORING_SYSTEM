@@ -7,7 +7,8 @@ import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.utils.Alert
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
@@ -23,9 +24,17 @@ public class ReportsController {
     @FXML
     private TableColumn<Transaction, Integer> cashierCol;
     @FXML
-    private TableColumn<Transaction, Date> dateCol;
+    private TableColumn<Transaction, Double> subtotalCol;
+    @FXML
+    private TableColumn<Transaction, Double> discountCol;
+    @FXML
+    private TableColumn<Transaction, Double> taxCol;
     @FXML
     private TableColumn<Transaction, Double> amountCol;
+    @FXML
+    private TableColumn<Transaction, Date> dateCol;
+    @FXML
+    private TableColumn<Transaction, Void> actionCol;
 
     private final SalesService salesService = new SalesService();
 
@@ -33,10 +42,48 @@ public class ReportsController {
     public void initialize() {
         saleIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         cashierCol.setCellValueFactory(new PropertyValueFactory<>("cashierId"));
-        dateCol.setCellValueFactory(new PropertyValueFactory<>("saleDate"));
+        subtotalCol.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
+        discountCol.setCellValueFactory(new PropertyValueFactory<>("discountAmount"));
+        taxCol.setCellValueFactory(new PropertyValueFactory<>("taxAmount"));
         amountCol.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("saleDate"));
 
+        setupActionColumn();
         loadTodaySales();
+    }
+
+    private void setupActionColumn() {
+        actionCol.setCellFactory(param -> new TableCell<>() {
+            private final Button btn = new Button("View");
+            {
+                btn.setOnAction(event -> {
+                    Transaction t = getTableView().getItems().get(getIndex());
+                    showReceipt(t);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btn);
+            }
+        });
+    }
+
+    private void showReceipt(Transaction t) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Receipt Details");
+        alert.setHeaderText("Sale ID: " + t.getId());
+
+        TextArea textArea = new TextArea(t.getReceiptText());
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+        textArea.setPrefHeight(400);
+        textArea.setPrefWidth(300);
+        textArea.setStyle("-fx-font-family: 'Monospaced';");
+
+        alert.getDialogPane().setContent(textArea);
+        alert.showAndWait();
     }
 
     private void loadTodaySales() {

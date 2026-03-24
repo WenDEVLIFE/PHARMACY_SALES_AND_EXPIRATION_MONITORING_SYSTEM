@@ -48,6 +48,16 @@ public class SalesController {
     private TableColumn<SaleItem, Double> cartSubtotalCol;
 
     @FXML
+    private ComboBox<String> discountTypeCombo;
+    @FXML
+    private TextField customDiscountField;
+    @FXML
+    private Label subtotalLabel;
+    @FXML
+    private Label discountLabel;
+    @FXML
+    private Label taxLabel;
+    @FXML
     private Label totalLabel;
 
     private final InventoryService inventoryService = new InventoryService();
@@ -61,6 +71,15 @@ public class SalesController {
         setupCartTable();
         loadAllProducts();
 
+        discountTypeCombo.setItems(FXCollections.observableArrayList("None", "Senior Citizen", "PWD", "Custom"));
+        discountTypeCombo.setValue("None");
+
+        discountTypeCombo.valueProperty().addListener((obs, oldVal, newVal) -> {
+            customDiscountField.setVisible("Custom".equals(newVal));
+            updateTotal();
+        });
+
+        customDiscountField.textProperty().addListener((obs, oldVal, newVal) -> updateTotal());
         searchField.textProperty().addListener((obs, oldVal, newVal) -> filterProducts(newVal));
     }
 
@@ -146,10 +165,65 @@ public class SalesController {
     }
 
     private void updateTotal() {
-        double total = cartItems.stream()
+        double subtotal = cartItems.stream()
                 .mapToDouble(item -> item.getQuantity() * item.getUnitPrice())
                 .sum();
+
+        double tax = subtotal * 0.12;
+        double discountPercent = 0;
+        String type = discountTypeCombo.getValue();
+
+        if ("Senior Citizen".equals(type) || "PWD".equals(type)) {
+            discountPercent = 20;
+        } else if ("Custom".equals(type)) {
+            try {
+                discountPercent = Double.parseDouble(customDiscountField.getText());
+            } catch (NumberFormatException e) {
+                discountPercent = 0;
+            }
+        }
+
+        double discountAmount = (subtotal + tax) * (discountPercent / 100.0);
+        double total = (subtotal + tax) - discountAmount;
+
+        subtotalLabel.setText(String.format("%.2f", subtotal));
+        taxLabel.setText(String.format("%.2f", tax));
+        discountLabel.setText(String.format("%.2f", discountAmount));
         totalLabel.setText(String.format("%.2f", total));
+    }
+
+    private String generateReceiptText(double subtotal, double tax, double discount, double total, String type) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("==============================\n");
+        sb.append("   PHARMACY MANAGEMENT SYSTEM   \n");
+        sb.append("==============================\n");
+        sb.append("Date: ").append(new java.util.Date()).append("\n");
+        sb.append("Cashier: ").append(AuthenticationService.getCurrentUser().getUsername()).append("\n");
+        sb.append("------------------------------\n");
+        sb.append(String.format("%-15s %3s %10s\n", "Item", "Qty", "Price"));
+
+        for (SaleItem item : cartItems) {
+            String name = allProducts.stream()
+                    .filter(p -> p.getId() == item.getProductId())
+                    .map(Product::getName)
+                    .findFirst().orElse("Item " + item.getProductId());
+            if (name.length() > 15)
+                name = name.substring(0, 12) + "...";
+            sb.append(String.format("%-15s %3d %10.2f\n", name, item.getQuantity(), item.getUnitPrice()));
+        }
+
+        sb.append("------------------------------\n");
+        sb.append(String.format("Subtotal:       %15.2f\n", subtotal));
+        sb.append(String.format("Tax (12%%):      %15.2f\n", tax));
+        if (discount > 0) {
+            sb.append(String.format("Discount (%s):  %15.2f\n", type, discount));
+        }
+        sb.append("------------------------------\n");
+        sb.append(String.format("TOTAL:          %15.2f\n", total));
+        sb.append("==============================\n");
+        sb.append("   Thank you for your visit!   \n");
+        sb.append("==============================\n");
+        return sb.toString();
     }
 
     @FXML
@@ -158,20 +232,29 @@ public class SalesController {
             return;
 
         try {
+            double subtotal = Double.parseDouble(subtotalLabel.getText());
+            double tax = Double.parseDouble(taxLabel.getText());
+            double discount = Double.parseDouble(discountLabel.getText());
+            double total = Double.parseDouble(totalLabel.getText());
+            String type = discountTypeCombo.getValue();
+            String receipt = generateReceiptText(subtotal, tax, discount, total, type);
+
             int cashierId = AuthenticationService.getCurrentUser().getId();
+
+            // Sync cart with service
             salesService.clearCart();
             for (SaleItem item : cartItems) {
                 salesService.addToCart(item.getProductId(), item.getQuantity(), item.getUnitPrice());
             }
 
-            if (salesService.completeSale(cashierId)) {
-                AlertHelper.showInfo("Transaction Complete", "Sale recorded successfully.");
+            if (salesService.completeSale(cashierId, subtotal, discount, tax, total, type, receipt)) {
+                AlertHelper.showInfo("Transaction Complete", "Sale recorded successfully.\n\n" + receipt);
                 cartItems.clear();
                 updateTotal();
                 loadAllProducts(); // Refresh stock
             }
-        } catch (SQLException e) {
-            AlertHelper.showError("Database Error", "Failed to complete transaction: " + e.getMessage());
+        } catch (Exception e) {
+            AlertHelper.showError("Error", "Failed to complete transaction: " + e.getMessage());
         }
     }
 

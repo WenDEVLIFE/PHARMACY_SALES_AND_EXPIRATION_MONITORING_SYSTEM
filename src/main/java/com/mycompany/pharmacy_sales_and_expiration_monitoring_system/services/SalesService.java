@@ -25,15 +25,13 @@ public class SalesService {
         currentCart.clear();
     }
 
-    public boolean completeSale(int cashierId) throws SQLException {
+    public boolean completeSale(int cashierId, double subtotal, double discountAmount, double taxAmount,
+            double totalAmount, String discountType, String receiptText) throws SQLException {
         if (currentCart.isEmpty())
             return false;
 
-        double total = currentCart.stream()
-                .mapToDouble(item -> item.getQuantity() * item.getUnitPrice())
-                .sum();
-
-        Transaction transaction = new Transaction(cashierId, total, new ArrayList<>(currentCart));
+        Transaction transaction = new Transaction(cashierId, subtotal, discountAmount, taxAmount, totalAmount,
+                discountType, receiptText, new ArrayList<>(currentCart));
         boolean success = transactionRepository.saveTransaction(transaction);
         if (success) {
             clearCart();
