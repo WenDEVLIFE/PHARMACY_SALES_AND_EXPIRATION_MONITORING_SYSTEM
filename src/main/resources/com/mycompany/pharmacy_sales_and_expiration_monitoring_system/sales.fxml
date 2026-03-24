@@ -12,6 +12,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.text.Font?>
 <?import java.net.URL?>
 
@@ -22,6 +24,7 @@
     <children>
         <HBox alignment="CENTER_LEFT" spacing="20.0">
             <children>
+                <ImageView fx:id="logoImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
                 <Label text="Point of Sale (POS)" styleClass="header-label">
                     <font>
                         <Font size="24.0" />

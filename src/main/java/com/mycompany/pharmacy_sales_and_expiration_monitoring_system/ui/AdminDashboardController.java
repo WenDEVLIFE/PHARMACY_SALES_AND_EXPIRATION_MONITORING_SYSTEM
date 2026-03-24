@@ -6,6 +6,8 @@ import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.services.Au
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.services.InventoryService;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.utils.AlertHelper;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,8 +19,41 @@ public class AdminDashboardController {
     private final InventoryService inventoryService = new InventoryService();
 
     @FXML
+    private ImageView logoImageView;
+
+    @FXML
     public void initialize() {
+        loadLogo();
         checkExpirations();
+    }
+
+    private void loadLogo() {
+        try {
+            // Adjust this path if you moved the file into a subfolder, e.g. "/images/logo.jpg"
+            String path = "/images/loggy.png";
+            var resource = getClass().getResource(path);
+
+            if (resource == null) {
+                System.err.println("Logo resource not found at: " + path);
+                return;
+            }
+
+            if (logoImageView == null) {
+                System.err.println("logoImageView is null. Check fx:id in FXML.");
+                return;
+            }
+
+            Image logo = new Image(resource.toExternalForm(), true);
+            if (logo.isError()) {
+                System.err.println("Error loading logo image: " + logo.getException());
+            } else {
+                logoImageView.setImage(logo);
+                System.out.println("Logo loaded from: " + resource);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to load logo: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void checkExpirations() {
@@ -38,7 +73,8 @@ public class AdminDashboardController {
                 AlertHelper.showWarning("Expiration Alert", message);
             }
         } catch (SQLException e) {
-            // Silently fail or log for dashboard
+            // Optionally log e
+            System.err.println("Error checking expirations: " + e.getMessage());
         }
     }
 

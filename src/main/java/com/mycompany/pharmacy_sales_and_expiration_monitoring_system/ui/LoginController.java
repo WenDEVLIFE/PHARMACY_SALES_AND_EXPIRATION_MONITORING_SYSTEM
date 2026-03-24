@@ -1,3 +1,4 @@
+// Java
 package com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui;
 
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.App;
@@ -6,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -21,7 +24,39 @@ public class LoginController {
     @FXML
     private Label statusLabel;
 
+    @FXML
+    private ImageView logoImageView;
+
     private final AuthenticationService authService = new AuthenticationService();
+
+    @FXML
+    public void initialize() {
+        try {
+            String path = "/images/loggy.png"; // matches target/classes/images/logo.jpg
+            var resource = getClass().getResource(path);
+            if (resource == null) {
+                System.err.println("LOGO ERROR: Resource not found at " + path);
+                return;
+            }
+            if (logoImageView == null) {
+                System.err.println("LOGO ERROR: logoImageView is null (check fx:id in FXML)");
+                return;
+            }
+
+            // load synchronously so width/height are known immediately
+            Image logo = new Image(resource.toExternalForm(), false);
+            System.out.println("LOGO size: " + logo.getWidth() + "x" + logo.getHeight());
+
+            logoImageView.setImage(logo);
+            logoImageView.setPreserveRatio(true);
+            logoImageView.setSmooth(true);
+            logoImageView.setCache(true);
+        } catch (Exception e) {
+            System.err.println("LOGO ERROR: Exception loading logo: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     private void handleLogin() {

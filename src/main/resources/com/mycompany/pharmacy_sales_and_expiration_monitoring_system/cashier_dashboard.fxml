@@ -18,9 +18,11 @@
     <children>
         <HBox alignment="CENTER_LEFT" spacing="20.0" prefWidth="Infinity">
             <children>
-                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView  style="-fx-border-color: red;"
+                            fitHeight="80.0"
+                            fitWidth="80.0" pickOnBounds="true" preserveRatio="true" fx:id="logoImageView">
                     <image>
-                        <Image url="@/com/mycompany/pharmacy_sales_and_expiration_monitoring_system/assets/logo.jpg" />
+                        <Image url="@images/loggy.png" />
                     </image>
                 </ImageView>
                 <Label text="Cashier Dashboard" styleClass="header-label">

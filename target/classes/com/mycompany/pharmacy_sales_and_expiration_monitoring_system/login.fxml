@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -7,38 +8,39 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import java.net.URL?>
 
-<StackPane xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.LoginController" styleClass="main-bg">
+<StackPane styleClass="main-bg" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.LoginController">
     <stylesheets>
         <URL value="@style.css" />
     </stylesheets>
     <children>
-        <VBox alignment="CENTER" spacing="30.0" maxWidth="400.0" maxHeight="600.0" style="-fx-background-color: transparent;">
+        <VBox alignment="CENTER" maxHeight="600.0" maxWidth="400.0" spacing="30.0" style="-fx-background-color: transparent;">
             <children>
-                <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@/com/mycompany/pharmacy_sales_and_expiration_monitoring_system/assets/logo.jpg" />
-                    </image>
-                </ImageView>
-                <Label text="Pharmacy System Login" styleClass="header-label">
+                <ImageView fx:id="logoImageView"
+                           fitHeight="180.0"
+                           fitWidth="180.0"
+                           pickOnBounds="true"
+                           preserveRatio="true"
+                           style="-fx-background-color: rgba(255,0,0,0.3);"/>
+                <Label styleClass="header-label" text="Pharmacy System Login">
                     <font>
                         <Font size="28.0" />
                     </font>
+                    
                 </Label>
-                <VBox spacing="15.0" styleClass="card" prefWidth="350.0">
+                <VBox prefWidth="350.0" spacing="15.0" styleClass="card">
                     <children>
-                        <Label text="Username" style="-fx-font-weight: bold;"/>
-                        <TextField fx:id="usernameField" promptText="Enter username" prefHeight="40.0"/>
-                        <Label text="Password" style="-fx-font-weight: bold;"/>
-                        <PasswordField fx:id="passwordField" promptText="Enter password" prefHeight="40.0"/>
-                        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefWidth="Infinity" prefHeight="45.0" text="LOGIN" styleClass="button-primary" />
+                        <Label style="-fx-font-weight: bold;" text="Username" />
+                        <TextField fx:id="usernameField" prefHeight="40.0" promptText="Enter username" />
+                        <Label style="-fx-font-weight: bold;" text="Password" />
+                        <PasswordField fx:id="passwordField" prefHeight="40.0" promptText="Enter password" />
+                        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefHeight="45.0" prefWidth="Infinity" styleClass="button-primary" text="LOGIN" />
                     </children>
                 </VBox>
-                <Label fx:id="statusLabel" textFill="#e74c3c" wrapText="true" alignment="CENTER"/>
+                <Label fx:id="statusLabel" alignment="CENTER" textFill="#e74c3c" wrapText="true" />
             </children>
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

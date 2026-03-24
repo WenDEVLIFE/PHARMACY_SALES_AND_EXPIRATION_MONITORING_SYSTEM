@@ -14,6 +14,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -35,6 +37,9 @@ public class SalesController {
     private TableColumn<Product, Integer> searchStockCol;
     @FXML
     private TableColumn<Product, Void> searchActionCol;
+
+    @FXML
+    private ImageView logoImageView;
 
     @FXML
     private TableView<SaleItem> cartTable;
