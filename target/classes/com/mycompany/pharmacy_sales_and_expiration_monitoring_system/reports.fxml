@@ -8,25 +8,29 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import java.net.URL?>
 
-<VBox spacing="20.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.ReportsController" style="-fx-background-color: #f4f7f6;">
+<VBox spacing="20.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.ReportsController" styleClass="main-bg">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
     <children>
         <HBox alignment="CENTER_LEFT" spacing="20.0">
             <children>
-                <Label text="Sales Reports">
+                <Label text="Sales Reports" styleClass="header-label">
                     <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font size="24.0" />
                     </font>
                 </Label>
-                <Button text="Back" onAction="#handleBack" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+                <Button text="Back" onAction="#handleBack" styleClass="button-danger"/>
             </children>
         </HBox>
 
         <VBox spacing="10.0" VBox.vgrow="ALWAYS">
             <children>
-                <Label text="Today's Sales Summary">
+                <Label text="Today's Sales Summary" styleClass="header-label">
                     <font>
-                        <Font name="System Bold" size="14.0" />
+                        <Font size="14.0" />
                     </font>
                 </Label>
                 <TableView fx:id="reportsTable" VBox.vgrow="ALWAYS">

@@ -11,17 +11,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import java.net.URL?>
 
-<VBox spacing="20.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.InventoryController" style="-fx-background-color: #f4f7f6;">
+<VBox spacing="20.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.InventoryController" styleClass="main-bg">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
     <children>
         <HBox alignment="CENTER_LEFT" spacing="20.0">
             <children>
-                <Label text="Inventory Management">
+                <Label text="Inventory Management" styleClass="header-label">
                     <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font size="24.0" />
                     </font>
                 </Label>
-                <Button text="Back" onAction="#handleBack" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+                <Button text="Back" onAction="#handleBack" styleClass="button-danger"/>
             </children>
         </HBox>
 
@@ -30,7 +34,7 @@
                 <!-- Product List Table -->
                 <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Label text="Product List" />
+                        <Label text="Product List" styleClass="header-label" />
                         <TableView fx:id="productTable" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="idCol" prefWidth="50.0" text="ID" />
@@ -45,11 +49,11 @@
                 </VBox>
 
                 <!-- Add/Edit Form -->
-                <VBox spacing="15.0" minWidth="250.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #ddd; -fx-border-radius: 5;">
+                <VBox spacing="15.0" minWidth="250.0" styleClass="card">
                     <children>
-                        <Label text="Add / Edit Product">
+                        <Label text="Add / Edit Product" styleClass="header-label">
                             <font>
-                                <Font name="System Bold" size="14.0" />
+                                <Font size="14.0" />
                             </font>
                         </Label>
                         <TextField fx:id="nameField" promptText="Product Name" />
@@ -58,8 +62,8 @@
                         <TextField fx:id="priceField" promptText="Price" />
                         <TextField fx:id="stockField" promptText="Stock Quantity" />
                         <DatePicker fx:id="expDatePicker" promptText="Expiration Date" prefWidth="Infinity" />
-                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" prefWidth="Infinity" text="Save Product" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                        <Button fx:id="clearButton" mnemonicParsing="false" onAction="#handleClear" prefWidth="Infinity" text="Clear" style="-fx-background-color: #ecf0f1;"/>
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" prefWidth="Infinity" text="Save Product" styleClass="button-primary"/>
+                        <Button fx:id="clearButton" mnemonicParsing="false" onAction="#handleClear" prefWidth="Infinity" text="Clear" />
                     </children>
                 </VBox>
             </children>

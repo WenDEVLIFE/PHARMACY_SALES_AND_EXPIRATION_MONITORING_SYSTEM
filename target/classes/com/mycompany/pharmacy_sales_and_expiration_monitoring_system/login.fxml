@@ -5,17 +5,28 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import java.net.URL?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.LoginController" style="-fx-background-color: #f4f7f6;">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.LoginController" styleClass="main-bg">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
     <children>
-        <Label text="Pharmacy System Login">
+        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@assets/logo.jpg" />
+            </image>
+        </ImageView>
+        <Label text="Pharmacy System Login" styleClass="header-label">
             <font>
-                <Font name="System Bold" size="24.0" />
+                <Font size="24.0" />
             </font>
         </Label>
-        <VBox spacing="10.0" maxWidth="300.0">
+        <VBox spacing="10.0" maxWidth="300.0" styleClass="card">
             <children>
                 <Label text="Username" />
                 <TextField fx:id="usernameField" promptText="Enter username" />
@@ -23,11 +34,7 @@
                 <PasswordField fx:id="passwordField" promptText="Enter password" />
             </children>
         </VBox>
-        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefWidth="150.0" text="Login" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-cursor: hand;">
-            <font>
-                <Font name="System Bold" size="14.0" />
-            </font>
-        </Button>
+        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefWidth="150.0" text="Login" styleClass="button-primary" />
         <Label fx:id="statusLabel" textFill="#e74c3c" />
     </children>
     <padding>

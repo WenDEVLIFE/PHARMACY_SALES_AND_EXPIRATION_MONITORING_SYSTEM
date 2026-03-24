@@ -1,0 +1,78 @@
+/* Pharmacy System Custom Theme */
+
+.root {
+    -primary-color: #1A3E5E;    /* Navy Blue from Logo */
+    -secondary-color: #4CAF50;  /* Green from Logo */
+    -accent-color: #F39C12;     /* Orange from Logo */
+    -bg-color: #F4F7F6;
+    -text-color: #2C3E50;
+    -white: #FFFFFF;
+}
+
+.main-bg {
+    -fx-background-color: -bg-color;
+}
+
+.label {
+    -fx-text-fill: -text-color;
+}
+
+.header-label {
+    -fx-text-fill: -primary-color;
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.button-primary {
+    -fx-background-color: -primary-color;
+    -fx-text-fill: -white;
+}
+
+.button-secondary {
+    -fx-background-color: -secondary-color;
+    -fx-text-fill: -white;
+}
+
+.button-accent {
+    -fx-background-color: -accent-color;
+    -fx-text-fill: -white;
+}
+
+.button-danger {
+    -fx-background-color: #E74C3C;
+    -fx-text-fill: -white;
+}
+
+.text-field, .password-field, .combo-box, .date-picker {
+    -fx-background-radius: 5;
+    -fx-border-color: #DDD;
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-selection-bar: -primary-color;
+}
+
+.table-view .column-header {
+    -fx-background-color: -primary-color;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: -white;
+    -fx-font-weight: bold;
+}
+
+.card {
+    -fx-background-color: -white;
+    -fx-padding: 20;
+    -fx-border-color: #DDD;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
