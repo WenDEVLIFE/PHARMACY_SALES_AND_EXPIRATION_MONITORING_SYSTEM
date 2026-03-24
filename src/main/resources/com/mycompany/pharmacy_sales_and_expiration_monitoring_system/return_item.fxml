@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.net.URL?>
+
+<VBox alignment="TOP_CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.ReturnItemController" styleClass="main-bg">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+    <children>
+        <HBox alignment="CENTER_LEFT" spacing="20.0" prefWidth="Infinity">
+            <children>
+                <Label text="Return Item Management" styleClass="header-label">
+                    <font>
+                        <Font size="32.0" />
+                    </font>
+                </Label>
+                <HBox HBox.hgrow="ALWAYS" />
+                <Button mnemonicParsing="false" onAction="#handleBack" text="Back" styleClass="button-primary" prefWidth="100.0" />
+            </children>
+        </HBox>
+        
+        <HBox alignment="CENTER" spacing="10.0" styleClass="card">
+            <children>
+                <Label text="Sale ID:" />
+                <TextField fx:id="saleIdField" prefWidth="150.0" promptText="Enter Sale ID" />
+                <Button mnemonicParsing="false" onAction="#handleSearch" text="Search Sale" styleClass="button-secondary" />
+            </children>
+            <padding>
+                <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+            </padding>
+        </HBox>
+
+        <VBox fx:id="saleDetailsBox" spacing="15.0" VBox.vgrow="ALWAYS" visible="false">
+            <children>
+                <HBox spacing="20.0">
+                    <children>
+                        <Label fx:id="saleInfoLabel" text="Sale Info: " style="-fx-font-weight: bold;" />
+                    </children>
+                </HBox>
+                
+                <TableView fx:id="itemsTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="productNameCol" text="Product" prefWidth="250.0" />
+                        <TableColumn fx:id="quantityCol" text="Qty Sold" prefWidth="100.0" />
+                        <TableColumn fx:id="priceCol" text="Unit Price" prefWidth="100.0" />
+                    </columns>
+                </TableView>
+                
+                <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="card">
+                    <children>
+                        <Label text="Return Qty:" />
+                        <TextField fx:id="returnQtyField" prefWidth="80.0" />
+                        <Label text="Reason:" />
+                        <TextField fx:id="reasonField" HBox.hgrow="ALWAYS" promptText="Enter return reason" />
+                        <Button mnemonicParsing="false" onAction="#handleProcessReturn" text="Process Return" styleClass="button-danger" />
+                    </children>
+                    <padding>
+                        <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+    <padding>
+        <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+    </padding>
+</VBox>
