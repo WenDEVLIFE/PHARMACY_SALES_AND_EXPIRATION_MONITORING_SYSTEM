@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.LoginController" style="-fx-background-color: #f4f7f6;">
+    <children>
+        <Label text="Pharmacy System Login">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <VBox spacing="10.0" maxWidth="300.0">
+            <children>
+                <Label text="Username" />
+                <TextField fx:id="usernameField" promptText="Enter username" />
+                <Label text="Password" />
+                <PasswordField fx:id="passwordField" promptText="Enter password" />
+            </children>
+        </VBox>
+        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefWidth="150.0" text="Login" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-cursor: hand;">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Button>
+        <Label fx:id="statusLabel" textFill="#e74c3c" />
+    </children>
+    <padding>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+    </padding>
+</VBox>

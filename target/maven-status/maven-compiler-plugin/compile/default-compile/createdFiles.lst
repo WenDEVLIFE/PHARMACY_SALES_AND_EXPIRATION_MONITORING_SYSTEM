@@ -1,4 +1,2 @@
 module-info.class
 com/mycompany/pharmacy_sales_and_expiration_monitoring_system/App.class
-com/mycompany/pharmacy_sales_and_expiration_monitoring_system/SecondaryController.class
-com/mycompany/pharmacy_sales_and_expiration_monitoring_system/PrimaryController.class
