@@ -3,6 +3,7 @@ package com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.App;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.models.Supplier;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.repositories.SupplierRepository;
+import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.services.AuthenticationService;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.utils.AlertHelper;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -82,6 +83,10 @@ public class SuppliersController {
 
     @FXML
     private void handleSave() {
+        if (!AuthenticationService.isAdmin()) {
+            AlertHelper.showError("Access Denied", "Only administrators can add suppliers.");
+            return;
+        }
         Supplier supplier = getSupplierFromFields();
         if (supplier == null)
             return;
@@ -99,6 +104,10 @@ public class SuppliersController {
 
     @FXML
     private void handleUpdate() {
+        if (!AuthenticationService.isAdmin()) {
+            AlertHelper.showError("Access Denied", "Only administrators can update suppliers.");
+            return;
+        }
         if (selectedSupplier == null)
             return;
         Supplier supplier = getSupplierFromFields();
@@ -119,6 +128,10 @@ public class SuppliersController {
 
     @FXML
     private void handleDelete() {
+        if (!AuthenticationService.isAdmin()) {
+            AlertHelper.showError("Access Denied", "Only administrators can delete suppliers.");
+            return;
+        }
         if (selectedSupplier == null)
             return;
         try {

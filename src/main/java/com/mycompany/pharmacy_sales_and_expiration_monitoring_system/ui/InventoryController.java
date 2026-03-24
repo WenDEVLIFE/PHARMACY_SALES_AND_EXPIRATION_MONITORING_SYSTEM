@@ -4,6 +4,7 @@ import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.App;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.models.Product;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.models.Supplier;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.repositories.SupplierRepository;
+import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.services.AuthenticationService;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.services.InventoryService;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.utils.AlertHelper;
 import javafx.collections.FXCollections;
@@ -111,8 +112,9 @@ public class InventoryController {
             categoryField.setText(selectedProduct.getCategory());
             priceField.setText(String.valueOf(selectedProduct.getPrice()));
             stockField.setText(String.valueOf(selectedProduct.getStockQuantity()));
-            expDatePicker.setValue(
-                    selectedProduct.getExpirationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            java.util.Date date = selectedProduct.getExpirationDate();
+            LocalDate localDate = new java.sql.Date(date.getTime()).toLocalDate();
+            expDatePicker.setValue(localDate);
 
             // Set supplier in combo
             for (Supplier s : supplierCombo.getItems()) {
@@ -128,6 +130,10 @@ public class InventoryController {
 
     @FXML
     private void handleSave() {
+        if (!AuthenticationService.isAdmin()) {
+            AlertHelper.showError("Access Denied", "Only administrators can add products.");
+            return;
+        }
         try {
             Product product = getProductFromFields();
             if (product == null)
@@ -145,6 +151,10 @@ public class InventoryController {
 
     @FXML
     private void handleUpdate() {
+        if (!AuthenticationService.isAdmin()) {
+            AlertHelper.showError("Access Denied", "Only administrators can update products.");
+            return;
+        }
         if (selectedProduct == null)
             return;
         try {
@@ -165,6 +175,10 @@ public class InventoryController {
 
     @FXML
     private void handleDelete() {
+        if (!AuthenticationService.isAdmin()) {
+            AlertHelper.showError("Access Denied", "Only administrators can delete products.");
+            return;
+        }
         if (selectedProduct == null)
             return;
         try {

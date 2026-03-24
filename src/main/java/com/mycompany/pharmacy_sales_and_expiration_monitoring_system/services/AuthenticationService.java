@@ -29,4 +29,9 @@ public class AuthenticationService {
     public static void logout() {
         currentUser = null;
     }
+
+    public static boolean isAdmin() {
+        User currentUser = getCurrentUser();
+        return currentUser != null && "ADMIN".equalsIgnoreCase(currentUser.getRole());
+    }
 }
