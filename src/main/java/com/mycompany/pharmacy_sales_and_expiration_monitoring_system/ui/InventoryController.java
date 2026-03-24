@@ -70,9 +70,32 @@ public class InventoryController {
         stockCol.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         expCol.setCellValueFactory(new PropertyValueFactory<>("expirationDate"));
 
+        setupRowFactory();
         loadProducts();
         loadSuppliers();
         handleClear();
+    }
+
+    private void setupRowFactory() {
+        productTable.setRowFactory(tv -> new TableRow<>() {
+            @Override
+            protected void updateItem(Product item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    getStyleClass().removeAll("row-critical", "row-warning");
+                } else {
+                    LocalDate now = LocalDate.now();
+                    LocalDate exp = new java.sql.Date(item.getExpirationDate().getTime()).toLocalDate();
+
+                    getStyleClass().removeAll("row-critical", "row-warning");
+                    if (exp.isBefore(now.plusDays(7))) {
+                        getStyleClass().add("row-critical");
+                    } else if (exp.isBefore(now.plusDays(30))) {
+                        getStyleClass().add("row-warning");
+                    }
+                }
+            }
+        });
     }
 
     private void loadProducts() {

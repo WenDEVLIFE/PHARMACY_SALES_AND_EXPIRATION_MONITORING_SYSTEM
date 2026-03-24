@@ -1,9 +1,12 @@
 /* Pharmacy System Custom Theme */
 
 .root {
-    -primary-color: #1A3E5E;    /* Navy Blue from Logo */
-    -secondary-color: #4CAF50;  /* Green from Logo */
-    -accent-color: #F39C12;     /* Orange from Logo */
+    -primary-color: #1A3E5E;
+    /* Navy Blue from Logo */
+    -secondary-color: #4CAF50;
+    /* Green from Logo */
+    -accent-color: #F39C12;
+    /* Orange from Logo */
     -bg-color: #F4F7F6;
     -text-color: #2C3E50;
     -white: #FFFFFF;
@@ -48,7 +51,10 @@
     -fx-text-fill: -white;
 }
 
-.text-field, .password-field, .combo-box, .date-picker {
+.text-field,
+.password-field,
+.combo-box,
+.date-picker {
     -fx-background-radius: 5;
     -fx-border-color: #DDD;
     -fx-border-radius: 5;
@@ -75,4 +81,17 @@
     -fx-border-color: #DDD;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
+}
+
+.row-critical {
+    -fx-background-color: #FFCDD2;
+}
+
+.row-warning {
+    -fx-background-color: #FFF9C4;
+}
+
+.table-row-cell:filled:selected .row-critical,
+.table-row-cell:filled:selected .row-warning {
+    -fx-background-color: -primary-color;
 }
