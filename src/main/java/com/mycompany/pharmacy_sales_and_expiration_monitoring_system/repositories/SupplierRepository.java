@@ -37,4 +37,26 @@ public class SupplierRepository {
             return stmt.executeUpdate() > 0;
         }
     }
+
+    public boolean updateSupplier(Supplier supplier) throws SQLException {
+        String query = "UPDATE suppliers SET name = ?, contact_person = ?, phone = ?, address = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, supplier.getName());
+            stmt.setString(2, supplier.getContactPerson());
+            stmt.setString(3, supplier.getPhone());
+            stmt.setString(4, supplier.getAddress());
+            stmt.setInt(5, supplier.getId());
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
+    public boolean deleteSupplier(int id) throws SQLException {
+        String query = "DELETE FROM suppliers WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            return stmt.executeUpdate() > 0;
+        }
+    }
 }

@@ -8,36 +8,41 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 <?import java.net.URL?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.LoginController" styleClass="main-bg">
+<StackPane xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.LoginController" styleClass="main-bg">
     <stylesheets>
         <URL value="@style.css" />
     </stylesheets>
     <children>
-        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@assets/logo.jpg" />
-            </image>
-        </ImageView>
-        <Label text="Pharmacy System Login" styleClass="header-label">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Label>
-        <VBox spacing="10.0" maxWidth="300.0" styleClass="card">
+        <VBox alignment="CENTER" spacing="30.0" maxWidth="400.0" maxHeight="600.0" style="-fx-background-color: transparent;">
             <children>
-                <Label text="Username" />
-                <TextField fx:id="usernameField" promptText="Enter username" />
-                <Label text="Password" />
-                <PasswordField fx:id="passwordField" promptText="Enter password" />
+                <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/com/mycompany/pharmacy_sales_and_expiration_monitoring_system/assets/logo.jpg" />
+                    </image>
+                </ImageView>
+                <Label text="Pharmacy System Login" styleClass="header-label">
+                    <font>
+                        <Font size="28.0" />
+                    </font>
+                </Label>
+                <VBox spacing="15.0" styleClass="card" prefWidth="350.0">
+                    <children>
+                        <Label text="Username" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="usernameField" promptText="Enter username" prefHeight="40.0"/>
+                        <Label text="Password" style="-fx-font-weight: bold;"/>
+                        <PasswordField fx:id="passwordField" promptText="Enter password" prefHeight="40.0"/>
+                        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefWidth="Infinity" prefHeight="45.0" text="LOGIN" styleClass="button-primary" />
+                    </children>
+                </VBox>
+                <Label fx:id="statusLabel" textFill="#e74c3c" wrapText="true" alignment="CENTER"/>
             </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
         </VBox>
-        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefWidth="150.0" text="Login" styleClass="button-primary" />
-        <Label fx:id="statusLabel" textFill="#e74c3c" />
     </children>
-    <padding>
-        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-    </padding>
-</VBox>
+</StackPane>

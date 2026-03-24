@@ -50,9 +50,15 @@ public class InventoryController {
     @FXML
     private DatePicker expDatePicker;
 
+    @FXML
+    private Button updateButton;
+    @FXML
+    private Button deleteButton;
+
     private final InventoryService inventoryService = new InventoryService();
     private final SupplierRepository supplierRepository = new SupplierRepository();
     private ObservableList<Product> productList;
+    private Product selectedProduct;
 
     @FXML
     public void initialize() {
@@ -65,6 +71,7 @@ public class InventoryController {
 
         loadProducts();
         loadSuppliers();
+        handleClear();
     }
 
     private void loadProducts() {
@@ -97,7 +104,81 @@ public class InventoryController {
     }
 
     @FXML
+    private void handleTableClick() {
+        selectedProduct = productTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct != null) {
+            nameField.setText(selectedProduct.getName());
+            categoryField.setText(selectedProduct.getCategory());
+            priceField.setText(String.valueOf(selectedProduct.getPrice()));
+            stockField.setText(String.valueOf(selectedProduct.getStockQuantity()));
+            expDatePicker.setValue(
+                    selectedProduct.getExpirationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+
+            // Set supplier in combo
+            for (Supplier s : supplierCombo.getItems()) {
+                if (s.getId() == selectedProduct.getSupplierId()) {
+                    supplierCombo.setValue(s);
+                    break;
+                }
+            }
+            updateButton.setDisable(false);
+            deleteButton.setDisable(false);
+        }
+    }
+
+    @FXML
     private void handleSave() {
+        try {
+            Product product = getProductFromFields();
+            if (product == null)
+                return;
+
+            if (inventoryService.addProduct(product)) {
+                AlertHelper.showInfo("Success", "Product added successfully.");
+                loadProducts();
+                handleClear();
+            }
+        } catch (Exception e) {
+            AlertHelper.showError("Error", "Failed to save product: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleUpdate() {
+        if (selectedProduct == null)
+            return;
+        try {
+            Product product = getProductFromFields();
+            if (product == null)
+                return;
+            product.setId(selectedProduct.getId());
+
+            if (inventoryService.updateProduct(product)) {
+                AlertHelper.showInfo("Success", "Product updated successfully.");
+                loadProducts();
+                handleClear();
+            }
+        } catch (Exception e) {
+            AlertHelper.showError("Error", "Failed to update product: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleDelete() {
+        if (selectedProduct == null)
+            return;
+        try {
+            if (inventoryService.deleteProduct(selectedProduct.getId())) {
+                AlertHelper.showInfo("Success", "Product deleted successfully.");
+                loadProducts();
+                handleClear();
+            }
+        } catch (SQLException e) {
+            AlertHelper.showError("Database Error", "Failed to delete product: " + e.getMessage());
+        }
+    }
+
+    private Product getProductFromFields() {
         try {
             String name = nameField.getText();
             String category = categoryField.getText();
@@ -108,32 +189,28 @@ public class InventoryController {
 
             if (name.isEmpty() || supplier == null || expDate == null) {
                 AlertHelper.showWarning("Validation Error", "Please fill all required fields.");
-                return;
+                return null;
             }
 
             Date date = Date.from(expDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            Product product = new Product(name, category, supplier.getId(), price, stock, date);
-
-            if (inventoryService.addProduct(product)) {
-                AlertHelper.showInfo("Success", "Product added successfully.");
-                loadProducts();
-                handleClear();
-            }
+            return new Product(name, category, supplier.getId(), price, stock, date);
         } catch (NumberFormatException e) {
             AlertHelper.showError("Input Error", "Please enter valid numbers for price and stock.");
-        } catch (SQLException e) {
-            AlertHelper.showError("Database Error", "Failed to save product: " + e.getMessage());
+            return null;
         }
     }
 
     @FXML
     private void handleClear() {
+        selectedProduct = null;
         nameField.clear();
         categoryField.clear();
         supplierCombo.getSelectionModel().clearSelection();
         priceField.clear();
         stockField.clear();
         expDatePicker.setValue(null);
+        updateButton.setDisable(true);
+        deleteButton.setDisable(true);
     }
 
     @FXML

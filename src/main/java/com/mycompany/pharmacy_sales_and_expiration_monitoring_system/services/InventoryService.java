@@ -28,4 +28,12 @@ public class InventoryService {
     public boolean addProduct(Product product) throws SQLException {
         return productRepository.addProduct(product);
     }
+
+    public boolean updateProduct(Product product) throws SQLException {
+        return productRepository.updateProduct(product);
+    }
+
+    public boolean deleteProduct(int id) throws SQLException {
+        return productRepository.deleteProduct(id);
+    }
 }

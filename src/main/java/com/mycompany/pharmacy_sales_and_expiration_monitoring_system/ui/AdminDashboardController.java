@@ -14,6 +14,16 @@ public class AdminDashboardController {
     }
 
     @FXML
+    private void handleSuppliers() throws IOException {
+        App.setRoot("suppliers");
+    }
+
+    @FXML
+    private void handleUsers() throws IOException {
+        App.setRoot("users");
+    }
+
+    @FXML
     private void handleSales() throws IOException {
         App.setRoot("sales");
     }

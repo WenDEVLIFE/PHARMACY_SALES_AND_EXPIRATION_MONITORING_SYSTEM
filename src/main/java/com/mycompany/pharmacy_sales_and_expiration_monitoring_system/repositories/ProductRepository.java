@@ -50,6 +50,30 @@ public class ProductRepository {
         }
     }
 
+    public boolean updateProduct(Product product) throws SQLException {
+        String query = "UPDATE products SET name = ?, category = ?, supplier_id = ?, price = ?, stock_quantity = ?, expiration_date = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, product.getName());
+            stmt.setString(2, product.getCategory());
+            stmt.setInt(3, product.getSupplierId());
+            stmt.setDouble(4, product.getPrice());
+            stmt.setInt(5, product.getStockQuantity());
+            stmt.setDate(6, new java.sql.Date(product.getExpirationDate().getTime()));
+            stmt.setInt(7, product.getId());
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
+    public boolean deleteProduct(int id) throws SQLException {
+        String query = "DELETE FROM products WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
     public boolean updateStock(int productId, int newQuantity) throws SQLException {
         String query = "UPDATE products SET stock_quantity = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
