@@ -32,12 +32,12 @@
         <GridPane alignment="CENTER" hgap="20.0" vgap="20.0" VBox.vgrow="ALWAYS">
             <children>
                 <Button mnemonicParsing="false" onAction="#handleSuppliers" prefHeight="120.0" prefWidth="200.0" text="Add&#10;Supplier" styleClass="button-primary" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                <Button mnemonicParsing="false" onAction="#handleInventory" prefHeight="120.0" prefWidth="200.0" text="Add&#10;Product" styleClass="button-primary" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <Button mnemonicParsing="false" onAction="#handleAddProduct" prefHeight="120.0" prefWidth="200.0" text="Add&#10;Product" styleClass="button-primary" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
                 <Button mnemonicParsing="false" onAction="#handleInventory" prefHeight="120.0" prefWidth="200.0" text="Restock&#10;Product" styleClass="button-primary" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
                 <Button mnemonicParsing="false" onAction="#handleSales" prefHeight="120.0" prefWidth="200.0" text="Sell&#10;Product" styleClass="button-secondary" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
                 
                 <Button mnemonicParsing="false" onAction="#handleInventory" prefHeight="120.0" prefWidth="200.0" text="View&#10;Stock" styleClass="button-primary" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                <Button mnemonicParsing="false" onAction="#handleInventory" prefHeight="120.0" prefWidth="200.0" text="Check&#10;Expired" styleClass="button-warning" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Button mnemonicParsing="false" onAction="#handleCheckExpired" prefHeight="120.0" prefWidth="200.0" text="Check&#10;Expired" styleClass="button-warning" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                 <Button mnemonicParsing="false" onAction="#handleReturnItem" prefHeight="120.0" prefWidth="200.0" text="Return&#10;Item" styleClass="button-info" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
                 <Button mnemonicParsing="false" onAction="#handleReports" prefHeight="120.0" prefWidth="200.0" text="Daily Sales&#10;Summary" styleClass="button-accent" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
 

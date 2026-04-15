@@ -9,6 +9,8 @@ import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.services.In
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.utils.AlertHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -50,6 +52,8 @@ public class InventoryController {
     private TextField stockField;
     @FXML
     private DatePicker expDatePicker;
+    @FXML
+    private TextField searchField;
 
     @FXML
     private Button updateButton;
@@ -60,6 +64,11 @@ public class InventoryController {
     private final SupplierRepository supplierRepository = new SupplierRepository();
     private ObservableList<Product> productList;
     private Product selectedProduct;
+    private static String initialAction;
+
+    public static void setInitialAction(String action) {
+        initialAction = action;
+    }
 
     @FXML
     public void initialize() {
@@ -74,6 +83,16 @@ public class InventoryController {
         loadProducts();
         loadSuppliers();
         handleClear();
+
+        if ("ADD".equals(initialAction)) {
+            initialAction = null;
+            javafx.application.Platform.runLater(() -> nameField.requestFocus());
+        } else if ("EXPIRED".equals(initialAction)) {
+            initialAction = null;
+            loadExpiredProducts();
+        }
+
+        setupSearch();
     }
 
     private void setupRowFactory() {
@@ -100,11 +119,58 @@ public class InventoryController {
 
     private void loadProducts() {
         try {
-            productList = FXCollections.observableArrayList(inventoryService.getAllProducts());
-            productTable.setItems(productList);
+            List<Product> products = inventoryService.getAllProducts();
+            if (productList == null) {
+                productList = FXCollections.observableArrayList(products);
+            } else {
+                productList.setAll(products);
+            }
         } catch (SQLException e) {
             AlertHelper.showError("Database Error", "Failed to load products: " + e.getMessage());
         }
+    }
+
+    private void loadExpiredProducts() {
+        try {
+            List<Product> products = inventoryService.getExpiringSoon(0);
+            if (productList == null) {
+                productList = FXCollections.observableArrayList(products);
+            } else {
+                productList.setAll(products);
+            }
+            if (filteredList != null) {
+                filteredList.setPredicate(p -> true); // Reset search when switching to expired
+                searchField.clear();
+            }
+        } catch (SQLException e) {
+            AlertHelper.showError("Database Error", "Failed to load expired products: " + e.getMessage());
+        }
+    }
+
+    private FilteredList<Product> filteredList;
+
+    private void setupSearch() {
+        if (productList == null) return;
+
+        filteredList = new FilteredList<>(productList, p -> true);
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(product -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (product.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (product.getCategory().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+
+        SortedList<Product> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(productTable.comparatorProperty());
+        productTable.setItems(sortedList);
     }
 
     private void loadSuppliers() {

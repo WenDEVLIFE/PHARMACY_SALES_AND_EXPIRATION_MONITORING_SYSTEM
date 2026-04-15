@@ -71,6 +71,18 @@ public class AdminDashboardController {
     }
 
     @FXML
+    private void handleAddProduct() throws IOException {
+        InventoryController.setInitialAction("ADD");
+        handleInventory();
+    }
+
+    @FXML
+    private void handleCheckExpired() throws IOException {
+        InventoryController.setInitialAction("EXPIRED");
+        handleInventory();
+    }
+
+    @FXML
     private void handleSuppliers() throws IOException {
         App.setRoot("suppliers");
     }

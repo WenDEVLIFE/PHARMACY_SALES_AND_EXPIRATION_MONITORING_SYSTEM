@@ -40,6 +40,7 @@ public class CashierDashboardController {
 
     @FXML
     private void handleCheckExpired() throws IOException {
+        InventoryController.setInitialAction("EXPIRED");
         App.setRoot("inventory");
     }
 

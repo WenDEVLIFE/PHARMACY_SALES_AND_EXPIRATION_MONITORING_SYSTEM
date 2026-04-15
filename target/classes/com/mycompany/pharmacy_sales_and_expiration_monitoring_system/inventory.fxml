@@ -35,7 +35,13 @@
                 <!-- Product List Table -->
                 <VBox spacing="10.0" HBox.hgrow="ALWAYS" style="-fx-min-width: 600;">
                     <children>
-                        <Label text="Product List" styleClass="header-label" />
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <Label text="Product List" styleClass="header-label" />
+                                <HBox HBox.hgrow="ALWAYS" />
+                                <TextField fx:id="searchField" promptText="Search products by name or category..." prefWidth="300.0" prefHeight="35.0"/>
+                            </children>
+                        </HBox>
                         <TableView fx:id="productTable" VBox.vgrow="ALWAYS" onMouseClicked="#handleTableClick">
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
