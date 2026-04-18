@@ -20,7 +20,9 @@ public class UserRepository {
                         rs.getInt("id"),
                         rs.getString("username"),
                         rs.getString("password"),
-                        rs.getString("role")));
+                        rs.getString("role"),
+                        rs.getString("security_question"),
+                        rs.getString("security_answer")));
             }
         }
         return users;
@@ -41,7 +43,9 @@ public class UserRepository {
                             rs.getInt("id"),
                             rs.getString("username"),
                             rs.getString("password"),
-                            rs.getString("role"));
+                            rs.getString("role"),
+                            rs.getString("security_question"),
+                            rs.getString("security_answer"));
                 }
             }
         }
@@ -49,12 +53,14 @@ public class UserRepository {
     }
 
     public boolean createUser(User user) throws SQLException {
-        String query = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+        String query = "INSERT INTO users (username, password, role, security_question, security_answer) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
             stmt.setString(3, user.getRole());
+            stmt.setString(4, user.getSecurityQuestion());
+            stmt.setString(5, user.getSecurityAnswer());
             return stmt.executeUpdate() > 0;
         }
     }

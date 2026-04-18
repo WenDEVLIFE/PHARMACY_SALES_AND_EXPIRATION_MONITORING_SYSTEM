@@ -25,6 +25,9 @@ public class LoginController {
     private Label statusLabel;
 
     @FXML
+    private javafx.scene.control.Hyperlink forgotPasswordLink;
+
+    @FXML
     private ImageView logoImageView;
 
     private final AuthenticationService authService = new AuthenticationService();
@@ -78,9 +81,20 @@ public class LoginController {
                 }
             } else {
                 statusLabel.setText("Invalid username or password.");
+                forgotPasswordLink.setVisible(true);
             }
         } catch (SQLException | IOException e) {
             statusLabel.setText("System error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleForgotPassword() {
+        try {
+            App.setRoot("forgot_password");
+        } catch (IOException e) {
+            statusLabel.setText("Navigation error: " + e.getMessage());
             e.printStackTrace();
         }
     }

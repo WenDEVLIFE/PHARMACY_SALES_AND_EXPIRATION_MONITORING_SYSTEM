@@ -5,18 +5,32 @@ public class User {
     private String username;
     private String password;
     private String role;
+    private String securityQuestion;
+    private String securityAnswer;
 
-    public User(int id, String username, String password, String role) {
+    public User(int id, String username, String password, String role, String securityQuestion, String securityAnswer) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
+        this.securityQuestion = securityQuestion;
+        this.securityAnswer = securityAnswer;
     }
 
-    public User(String username, String password, String role) {
+    public User(String username, String password, String role, String securityQuestion, String securityAnswer) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.securityQuestion = securityQuestion;
+        this.securityAnswer = securityAnswer;
+    }
+
+    public User(int id, String username, String password, String role) {
+        this(id, username, password, role, null, null);
+    }
+
+    public User(String username, String password, String role) {
+        this(username, password, role, null, null);
     }
 
     // Getters and Setters
@@ -50,5 +64,21 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getSecurityQuestion() {
+        return securityQuestion;
+    }
+
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+
+    public String getSecurityAnswer() {
+        return securityAnswer;
+    }
+
+    public void setSecurityAnswer(String securityAnswer) {
+        this.securityAnswer = securityAnswer;
     }
 }
