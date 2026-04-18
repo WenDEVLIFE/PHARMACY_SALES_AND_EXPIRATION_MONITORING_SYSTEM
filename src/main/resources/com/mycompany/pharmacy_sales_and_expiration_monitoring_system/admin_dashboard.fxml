@@ -43,6 +43,7 @@
 
                 <Button mnemonicParsing="false" onAction="#handleMonthlyTop5Selling" prefHeight="120.0" prefWidth="200.0" text="Monthly Top 5&#10;Selling" styleClass="button-accent" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
                 <Button mnemonicParsing="false" onAction="#handlePasswordChange" prefHeight="120.0" prefWidth="200.0" text="Change&#10;Password" styleClass="button-info" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <Button mnemonicParsing="false" onAction="#handleUsers" prefHeight="120.0" prefWidth="200.0" text="User&#10;Management" styleClass="button-primary" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
                 <Button mnemonicParsing="false" onAction="#handleExit" prefHeight="120.0" prefWidth="200.0" text="Exit&#10;System" styleClass="button-danger" style="-fx-font-size: 14; -fx-text-alignment: center;" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
             </children>
         </GridPane>
