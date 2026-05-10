@@ -2,19 +2,17 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Pos?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane styleClass="main-bg" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.LoginController">
+<StackPane styleClass="main-bg" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui.LoginController">
     <stylesheets>
         <URL value="@style.css" />
     </stylesheets>
@@ -42,8 +40,8 @@
                             <children>
                                 <PasswordField fx:id="passwordField" prefHeight="40.0" promptText="Enter password" />
                                 <TextField fx:id="passwordVisible" prefHeight="40.0" promptText="Enter password" managed="false" visible="false" />
-                                <Button fx:id="togglePasswordBtn" text="&#128065;" onAction="#handleTogglePassword"
-                                        styleClass="eye-button"
+                                <Button fx:id="togglePasswordBtn" text="" onAction="#handleTogglePassword"
+                                        styleClass="eye-button, eye-open-icon"
                                         StackPane.alignment="CENTER_RIGHT" />
                             </children>
                         </StackPane>

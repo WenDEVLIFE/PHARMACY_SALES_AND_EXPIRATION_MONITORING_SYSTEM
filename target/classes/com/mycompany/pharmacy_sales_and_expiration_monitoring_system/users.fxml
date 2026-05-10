@@ -66,8 +66,8 @@
                             <children>
                                 <PasswordField fx:id="passwordField" promptText="New Password" prefHeight="35.0"/>
                                 <TextField fx:id="passwordVisible" promptText="New Password" prefHeight="35.0" managed="false" visible="false" />
-                                <Button fx:id="togglePasswordBtn" text="&#128065;" onAction="#handleTogglePassword"
-                                        styleClass="eye-button"
+                                <Button fx:id="togglePasswordBtn" text="" onAction="#handleTogglePassword"
+                                        styleClass="eye-button, eye-open-icon"
                                         StackPane.alignment="CENTER_RIGHT" />
                             </children>
                         </StackPane>

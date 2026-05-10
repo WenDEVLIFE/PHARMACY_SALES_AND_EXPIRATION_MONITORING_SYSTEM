@@ -69,7 +69,34 @@ public class UsersController {
     }
 
     @FXML
+    private void handleTogglePassword() {
+        passwordShown = !passwordShown;
+        togglePasswordBtn.setText("");
+        togglePasswordBtn.getStyleClass().removeAll("eye-open-icon", "eye-closed-icon");
+        
+        if (passwordShown) {
+            passwordVisible.setText(passwordField.getText());
+            passwordVisible.setManaged(true);
+            passwordVisible.setVisible(true);
+            passwordField.setManaged(false);
+            passwordField.setVisible(false);
+            togglePasswordBtn.getStyleClass().add("eye-closed-icon");
+        } else {
+            passwordField.setText(passwordVisible.getText());
+            passwordField.setManaged(true);
+            passwordField.setVisible(true);
+            passwordVisible.setManaged(false);
+            passwordVisible.setVisible(false);
+            togglePasswordBtn.getStyleClass().add("eye-open-icon");
+        }
+    }
+
+    @FXML
     private void handleSave() {
+        if (passwordShown) {
+            passwordField.setText(passwordVisible.getText());
+        }
+        
         String username = usernameField.getText();
         String password = passwordField.getText();
         String role = roleCombo.getValue();
@@ -130,31 +157,13 @@ public class UsersController {
             passwordField.setVisible(true);
             passwordVisible.setManaged(false);
             passwordVisible.setVisible(false);
-            togglePasswordBtn.setText("\uD83D\uDC41");
+            togglePasswordBtn.setText("");
+            togglePasswordBtn.getStyleClass().removeAll("eye-open-icon", "eye-closed-icon");
+            togglePasswordBtn.getStyleClass().add("eye-open-icon");
             passwordShown = false;
         }
         roleCombo.getSelectionModel().clearSelection();
         deleteButton.setDisable(true);
-    }
-
-    @FXML
-    private void handleTogglePassword() {
-        passwordShown = !passwordShown;
-        if (passwordShown) {
-            passwordVisible.setText(passwordField.getText());
-            passwordVisible.setManaged(true);
-            passwordVisible.setVisible(true);
-            passwordField.setManaged(false);
-            passwordField.setVisible(false);
-            togglePasswordBtn.setText("\uD83D\uDE48"); // 🙈
-        } else {
-            passwordField.setText(passwordVisible.getText());
-            passwordField.setManaged(true);
-            passwordField.setVisible(true);
-            passwordVisible.setManaged(false);
-            passwordVisible.setVisible(false);
-            togglePasswordBtn.setText("\uD83D\uDC41"); // 👁
-        }
     }
 
     @FXML

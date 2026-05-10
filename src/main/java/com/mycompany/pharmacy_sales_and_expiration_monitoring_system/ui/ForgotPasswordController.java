@@ -44,7 +44,7 @@ public class ForgotPasswordController {
 
     private final UserRepository userRepository = new UserRepository();
     private User targetUser;
-    private boolean newPasswordShown = false;
+    private boolean passwordShown = false;
 
     @FXML
     private void handleCheckUsername() {
@@ -77,7 +77,34 @@ public class ForgotPasswordController {
     }
 
     @FXML
+    private void handleToggleNewPassword() {
+        passwordShown = !passwordShown;
+        toggleNewPasswordBtn.setText("");
+        toggleNewPasswordBtn.getStyleClass().removeAll("eye-open-icon", "eye-closed-icon");
+        
+        if (passwordShown) {
+            newPasswordVisible.setText(newPasswordField.getText());
+            newPasswordVisible.setManaged(true);
+            newPasswordVisible.setVisible(true);
+            newPasswordField.setManaged(false);
+            newPasswordField.setVisible(false);
+            toggleNewPasswordBtn.getStyleClass().add("eye-closed-icon");
+        } else {
+            newPasswordField.setText(newPasswordVisible.getText());
+            newPasswordField.setManaged(true);
+            newPasswordField.setVisible(true);
+            newPasswordVisible.setManaged(false);
+            newPasswordVisible.setVisible(false);
+            toggleNewPasswordBtn.getStyleClass().add("eye-open-icon");
+        }
+    }
+
+    @FXML
     private void handleResetPassword() {
+        if (passwordShown) {
+            newPasswordField.setText(newPasswordVisible.getText());
+        }
+        
         String answer = answerField.getText();
         String newPassword = newPasswordField.getText();
 
@@ -101,26 +128,6 @@ public class ForgotPasswordController {
             }
         } else {
             statusLabel.setText("Incorrect security answer.");
-        }
-    }
-
-    @FXML
-    private void handleToggleNewPassword() {
-        newPasswordShown = !newPasswordShown;
-        if (newPasswordShown) {
-            newPasswordVisible.setText(newPasswordField.getText());
-            newPasswordVisible.setManaged(true);
-            newPasswordVisible.setVisible(true);
-            newPasswordField.setManaged(false);
-            newPasswordField.setVisible(false);
-            toggleNewPasswordBtn.setText("\uD83D\uDE48"); // 🙈
-        } else {
-            newPasswordField.setText(newPasswordVisible.getText());
-            newPasswordField.setManaged(true);
-            newPasswordField.setVisible(true);
-            newPasswordVisible.setManaged(false);
-            newPasswordVisible.setVisible(false);
-            toggleNewPasswordBtn.setText("\uD83D\uDC41"); // 👁
         }
     }
 

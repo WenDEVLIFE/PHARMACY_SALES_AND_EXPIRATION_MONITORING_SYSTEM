@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReturnItemController {
 
@@ -66,10 +67,17 @@ public class ReturnItemController {
             }
 
             List<SaleItem> items = transactionRepo.getSaleItems(saleId);
-            itemsTable.setItems(FXCollections.observableArrayList(items));
 
-            saleInfoLabel.setText("Sale ID: " + saleId + " | Date: " + transaction.getSaleDate() + " | Total: ₱"
-                    + transaction.getTotalAmount());
+            // Filter out fully-returned items (remaining qty == 0)
+            List<SaleItem> returnableItems = items.stream()
+                    .filter(item -> item.getQuantity() > 0)
+                    .collect(Collectors.toList());
+
+            itemsTable.setItems(FXCollections.observableArrayList(returnableItems));
+
+            String returnStatus = returnableItems.isEmpty() ? " | ⚠ All items fully returned" : "";
+            saleInfoLabel.setText("Sale ID: " + saleId + " | Date: " + transaction.getSaleDate()
+                    + " | Total: ₱" + transaction.getTotalAmount() + returnStatus);
             saleDetailsBox.setVisible(true);
 
         } catch (NumberFormatException e) {

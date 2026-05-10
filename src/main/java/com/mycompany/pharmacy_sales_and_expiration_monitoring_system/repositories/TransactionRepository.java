@@ -88,15 +88,26 @@ public class TransactionRepository {
 
     public List<SaleItem> getSaleItems(int saleId) throws SQLException {
         List<SaleItem> items = new ArrayList<>();
-        String query = "SELECT si.*, p.name as product_name FROM sale_items si JOIN products p ON si.product_id = p.id WHERE si.sale_id = ?";
+        // Join with sale_returns to compute remaining returnable qty
+        String query =
+            "SELECT si.product_id, si.quantity AS original_qty, si.unit_price, p.name AS product_name, " +
+            "       COALESCE(SUM(sr.quantity), 0) AS returned_qty " +
+            "FROM sale_items si " +
+            "JOIN products p ON si.product_id = p.id " +
+            "LEFT JOIN sale_returns sr ON sr.sale_id = si.sale_id AND sr.product_id = si.product_id " +
+            "WHERE si.sale_id = ? " +
+            "GROUP BY si.product_id, si.quantity, si.unit_price, p.name, si.sale_id";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, saleId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
+                    int originalQty = rs.getInt("original_qty");
+                    int returnedQty = rs.getInt("returned_qty");
+                    int remainingQty = originalQty - returnedQty;
                     SaleItem item = new SaleItem(
                             rs.getInt("product_id"),
-                            rs.getInt("quantity"),
+                            remainingQty,   // show remaining returnable qty
                             rs.getDouble("unit_price"));
                     item.setProductName(rs.getString("product_name"));
                     item.setSaleId(saleId);
