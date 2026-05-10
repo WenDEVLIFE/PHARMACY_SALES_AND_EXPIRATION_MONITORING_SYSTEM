@@ -28,12 +28,17 @@ public class UsersController {
     @FXML
     private PasswordField passwordField;
     @FXML
+    private TextField passwordVisible;
+    @FXML
+    private Button togglePasswordBtn;
+    @FXML
     private ComboBox<String> roleCombo;
     @FXML
     private Button deleteButton;
 
     private final UserRepository userRepository = new UserRepository();
     private User selectedUser;
+    private boolean passwordShown = false;
 
     @FXML
     public void initialize() {
@@ -118,8 +123,38 @@ public class UsersController {
         selectedUser = null;
         usernameField.clear();
         passwordField.clear();
+        passwordVisible.clear();
+        // Reset password visibility
+        if (passwordShown) {
+            passwordField.setManaged(true);
+            passwordField.setVisible(true);
+            passwordVisible.setManaged(false);
+            passwordVisible.setVisible(false);
+            togglePasswordBtn.setText("\uD83D\uDC41");
+            passwordShown = false;
+        }
         roleCombo.getSelectionModel().clearSelection();
         deleteButton.setDisable(true);
+    }
+
+    @FXML
+    private void handleTogglePassword() {
+        passwordShown = !passwordShown;
+        if (passwordShown) {
+            passwordVisible.setText(passwordField.getText());
+            passwordVisible.setManaged(true);
+            passwordVisible.setVisible(true);
+            passwordField.setManaged(false);
+            passwordField.setVisible(false);
+            togglePasswordBtn.setText("\uD83D\uDE48"); // 🙈
+        } else {
+            passwordField.setText(passwordVisible.getText());
+            passwordField.setManaged(true);
+            passwordField.setVisible(true);
+            passwordVisible.setManaged(false);
+            passwordVisible.setVisible(false);
+            togglePasswordBtn.setText("\uD83D\uDC41"); // 👁
+        }
     }
 
     @FXML

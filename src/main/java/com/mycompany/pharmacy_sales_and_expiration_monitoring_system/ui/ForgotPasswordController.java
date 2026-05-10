@@ -4,6 +4,7 @@ import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.App;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.models.User;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.repositories.UserRepository;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -33,10 +34,17 @@ public class ForgotPasswordController {
     private PasswordField newPasswordField;
 
     @FXML
+    private TextField newPasswordVisible;
+
+    @FXML
+    private Button toggleNewPasswordBtn;
+
+    @FXML
     private Label statusLabel;
 
     private final UserRepository userRepository = new UserRepository();
     private User targetUser;
+    private boolean newPasswordShown = false;
 
     @FXML
     private void handleCheckUsername() {
@@ -93,6 +101,26 @@ public class ForgotPasswordController {
             }
         } else {
             statusLabel.setText("Incorrect security answer.");
+        }
+    }
+
+    @FXML
+    private void handleToggleNewPassword() {
+        newPasswordShown = !newPasswordShown;
+        if (newPasswordShown) {
+            newPasswordVisible.setText(newPasswordField.getText());
+            newPasswordVisible.setManaged(true);
+            newPasswordVisible.setVisible(true);
+            newPasswordField.setManaged(false);
+            newPasswordField.setVisible(false);
+            toggleNewPasswordBtn.setText("\uD83D\uDE48"); // 🙈
+        } else {
+            newPasswordField.setText(newPasswordVisible.getText());
+            newPasswordField.setManaged(true);
+            newPasswordField.setVisible(true);
+            newPasswordVisible.setManaged(false);
+            newPasswordVisible.setVisible(false);
+            toggleNewPasswordBtn.setText("\uD83D\uDC41"); // 👁
         }
     }
 

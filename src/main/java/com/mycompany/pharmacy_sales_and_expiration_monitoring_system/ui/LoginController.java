@@ -4,6 +4,7 @@ package com.mycompany.pharmacy_sales_and_expiration_monitoring_system.ui;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.App;
 import com.mycompany.pharmacy_sales_and_expiration_monitoring_system.services.AuthenticationService;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -22,6 +23,12 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
+    private TextField passwordVisible;
+
+    @FXML
+    private Button togglePasswordBtn;
+
+    @FXML
     private Label statusLabel;
 
     @FXML
@@ -29,6 +36,8 @@ public class LoginController {
 
     @FXML
     private ImageView logoImageView;
+
+    private boolean passwordShown = false;
 
     private final AuthenticationService authService = new AuthenticationService();
 
@@ -86,6 +95,26 @@ public class LoginController {
         } catch (SQLException | IOException e) {
             statusLabel.setText("System error: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleTogglePassword() {
+        passwordShown = !passwordShown;
+        if (passwordShown) {
+            passwordVisible.setText(passwordField.getText());
+            passwordVisible.setManaged(true);
+            passwordVisible.setVisible(true);
+            passwordField.setManaged(false);
+            passwordField.setVisible(false);
+            togglePasswordBtn.setText("\uD83D\uDE48"); // 🙈
+        } else {
+            passwordField.setText(passwordVisible.getText());
+            passwordField.setManaged(true);
+            passwordField.setVisible(true);
+            passwordVisible.setManaged(false);
+            passwordVisible.setVisible(false);
+            togglePasswordBtn.setText("\uD83D\uDC41"); // 👁
         }
     }
 
